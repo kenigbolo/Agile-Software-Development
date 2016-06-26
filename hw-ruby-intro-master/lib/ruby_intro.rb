@@ -1,7 +1,7 @@
 # When done, submit this entire file to the autograder.
 
 # Part 1
-require "pry" #For debbuging purposes
+# require "pry" #For debbuging purposes
 
 def sum (arr)
   sum = 0
