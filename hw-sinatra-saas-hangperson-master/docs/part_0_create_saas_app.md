@@ -70,11 +70,12 @@ sure the correct gems (and, where specified, the correct versions) are
 available, and tries to install them otherwise.  This will create a new
 file `Gemfile.lock`, *which you should place under version control.*
 
+```
 To place under version control, use these commands:
 
-```sh
-$ git add -A
-$ git commit -am "Set up the Gemfile"
+git add -A
+git commit -am "Set up the Gemfile"
+
 ```
 
 The first command stages all changed files for committing.
@@ -178,8 +179,8 @@ gems.
 
 If you're using Cloud9, you're now ready to test-drive our simple app with this command line:
 
-```sh
-$ rackup -p $PORT -o $IP
+```bash
+rackup -p $PORT -o $IP
 ```
 
 This command starts the Rack appserver and the WEBrick webserver.  Rack
@@ -223,7 +224,7 @@ you have to restart Rack in order for it to "see" those changes. Since restartin
 
 You're probably already thinking: "Aha! If our app depends on this additional gem, we should add it to the Gemfile and run bundle to make sure it's really present." Good thinking. But it may also occur to you that this particular gem wouldn't be necessary in a production environment: we only need it as a tool while developing. Fortunately, there's a way to tell Bundler that some gems are only necessary in certain environments. Add the following to the Gemfile (it doesn't matter where):
 
-```ruby
+```bash
 group :development do
   gem 'rerun'
 end
@@ -244,10 +245,7 @@ Deploy to Heroku
 Heroku is a cloud platform-as-a-service (PaaS) where we can deploy our Sinatra (and later Rails) applications in a more robust way than via Cloud9. If you don't have an account yet, go sign up at http://www.heroku.com. You'll need your login and password for the next step.
 
 If using Cloud9, update your Heroku Toolbelt installation by typing the following command:
-
-```
-$ wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-```
+`wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh`
 
 Log in to your Heroku account by typing the command: `heroku login` in the Cloud9 terminal. This will connect your Cloud9 workspace to your Heroku account.
 
@@ -256,10 +254,7 @@ While in the root directory of your project (not your whole workspace), type `he
 Next, make sure you stage and commit all changes locally as instructed above (i.e. `git add`, `git commit`, etc).
 
 Then, you will push your local Cloud9 git repo to Heroku, which is now ready for you:
-
-```
-$ git push heroku master
-```
+`git push heroku master`
 
 (`master` refers to which branch of the remote Heroku repo we are
 pushing to.  We'll learn about branches later in the course, but for

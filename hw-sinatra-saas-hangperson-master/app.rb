@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/flash'
 require './lib/hangperson_game.rb'
+require './lib/blank.rb'
 
 class HangpersonApp < Sinatra::Base
 
@@ -39,8 +40,25 @@ class HangpersonApp < Sinatra::Base
   # If a guess is invalid, set flash[:message] to "Invalid guess."
   post '/guess' do
     letter = params[:guess].to_s[0]
-    ### YOUR CODE HERE ###
-    redirect '/show'
+    if letter.blank?
+      flash[:message] = "Invalid guess."
+      redirect '/show'
+    elsif letter=~/[^A-Za-z]/
+      flash[:message] = "Invalid guess."
+      redirect '/show'
+    else
+      @state = @game.guess(letter)
+      if @state == ArgumentError
+        flash[:message] = "Invalid guess."
+        redirect '/show'
+      elsif @state == false
+        flash[:message] = "You have already used that letter."
+        redirect '/show'
+      else
+      ### YOUR CODE HERE ###
+        redirect '/show'
+      end
+    end
   end
   
   # Everytime a guess is made, we should eventually end up at this route.
@@ -49,18 +67,40 @@ class HangpersonApp < Sinatra::Base
   # Notice that the show.erb template expects to use the instance variables
   # wrong_guesses and word_with_guesses from @game.
   get '/show' do
-    ### YOUR CODE HERE ###
-    erb :show # You may change/remove this line
+    @status = @game.check_win_or_lose
+    
+    if @game.wrong_guesses.length == 7
+      @game.valid = :lose
+      redirect '/lose'
+    elsif @game.word_with_guesses == @game.word
+      @game.valid = :win
+      redirect '/win'
+    elsif @status == :win 
+        redirect '/win'
+    elsif @status == :lose
+        redirect '/lose'
+    else
+        erb :show
+    end
   end
+  
   
   get '/win' do
     ### YOUR CODE HERE ###
-    erb :win # You may change/remove this line
+    if @game.valid == :win
+      erb :win # You may change/remove this line
+    else
+      redirect '/show'
+    end
   end
   
   get '/lose' do
     ### YOUR CODE HERE ###
-    erb :lose # You may change/remove this line
+    if @game.valid == :lose
+      erb :lose # You may change/remove this line
+    else
+      redirect '/show'
+    end
   end
   
 end

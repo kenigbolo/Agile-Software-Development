@@ -14,6 +14,7 @@
 <p>
   Word so far:
   <span class="word"><%= @game.word_with_guesses %></span>
+  <% @game.valid = @game.word_with_guesses %>
 </p>
 
 <form action="/guess" method="post">
